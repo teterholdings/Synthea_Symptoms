@@ -76,6 +76,7 @@ java -jar $PROJECT_ROOT/synthea-bin/synthea.jar \
     -a 50-95 \
     --exporter.baseDirectory $PROJECT_ROOT/data/synthea_output \
     --exporter.symptoms.mode 1 \
+    --exporter.years_of_history 0 \
     --exporter.symptoms.csv.export true \
     --generate.only_dead_patients true \
     --exporter.use_uuid_filenames true
