@@ -91,7 +91,7 @@ python load_data.py
 ## Start flask app
 
 echo "\n\n================== STARTING FLASK APPLICATION ===================\n"
-flask run
+$PROJECT_ROOT/env/bin/flask run
 
 
 
