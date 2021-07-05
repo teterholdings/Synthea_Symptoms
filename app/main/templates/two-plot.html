@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %} Symtoms Results {% endblock %}
+
+{% block content %} 
+<div class="normal-page">
+<h1 class="results-title"> {{ page_title }} </h1>
+<h3> Age: {{ age }} </h4>
+<h3> Gender: {{ gender }} </h4>
+<div class="twoplot-container">
+    <div class="paired-chart-container">
+        <!--<h3> {{ plot1_title }} </h3>-->
+        <div id="plot1"></div>
+    </div>
+</div>
+<div class="twoplot-container">
+    <div class="paired-chart-container">
+        <!--<h3> {{ plot2_title }} </h3>-->
+        <div id="plot2"></div>
+    </div>
+</div>
+</div>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    var graph1 = {{ graphJSON_1 | safe }};
+    Plotly.plot('plot1',graph1,{})
+    var graph2= {{ graphJSON_2 | safe }};
+    Plotly.plot('plot2',graph2,{})
+</script>
+{% endblock %}

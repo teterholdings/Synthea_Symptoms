@@ -1,0 +1,74 @@
+{
+        "_id" : "609a1aba25bd044db9de1cd2",
+        "fullUrl" : "urn:uuid:0277b82a-4184-4365-8087-6e0af2097ef2",
+        "resource" : {
+                "symptoms" : [
+                        {
+                                "text" : "Difficulty Swallowing",
+                                "severity" : "19",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Body Aches",
+                                "severity" : "39",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Runny/Stuffy Nose",
+                                "severity" : "12",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Fatigue",
+                                "severity" : "18",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Swollen Lymph Nodes",
+                                "severity" : "38",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Swollen Tonsils",
+                                "severity" : "40",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Decreased Appetite",
+                                "severity" : "40",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Cough",
+                                "severity" : "1",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Sore Throat",
+                                "severity" : "42",
+                                "duration" : "0"
+                        },
+                        {
+                                "text" : "Fever",
+                                "severity" : "5",
+                                "duration" : "0"
+                        }
+                ],
+                "subject" : {
+                        "reference" : "urn:uuid:3cd59b74-36bc-2d07-7b3f-8f1524dd464a"
+                },
+                "age_begin" : 4,
+                "age_end" : 4,
+                "pathology" : "Acute viral pharyngitis (disorder)",
+                "gender" : "F",
+                "race" : "white",
+                "ethnicity" : "nonhispanic",
+                "num_symptoms" : 10,
+                "encounter" : {
+                        "reference" : "[None]"
+                },
+                "condition" : {
+                        "reference" : "[None]"
+                }
+        }
+}

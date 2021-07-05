@@ -1,0 +1,136 @@
+.select-form{
+    margin: auto;
+    width: 500px;
+    text-align: center;
+}
+
+.form-field{
+    width: 300px;
+    text-align: left;
+    margin:auto;
+}
+
+.age-field{
+    width: 300px;
+    text-align: left;
+    margin:auto;
+}
+
+.results-title{
+    text-align: center;
+}
+
+/* Style page content */
+.main {
+    width: 70%;
+    margin-left: 30%; /* Same as the width of the sidebar */
+    padding: 70px 10px;
+    display: block;
+    text-align: center;
+}
+
+.result-container{
+    margin: 70px 20px;
+    text-align: center;
+    width: 90%;
+}
+
+.res-chart-container{
+    border: 2px solid black;
+}
+
+.results-table{
+    margin: 30px auto;
+    width: 500px;
+    text-align: center;
+}
+
+.centered-table{
+    margin: auto;
+    font-size: 16px;
+    width: 500px;
+}
+
+th, td {
+    padding: 5px 15px;
+    text-align: left;
+}
+
+td.prob-data {
+    padding: 5px 15px;
+    text-align: right;
+}
+
+.sidenav {
+    width: 30%; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 2; /* Stay on top */
+    top: 50px; /* Stay at the top */
+    left: 0;
+    background-color: #F1F1F1; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow-y: auto;
+    padding-top: 60px;
+    padding-left: 20px;
+    display: block;
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: blue;
+    text-decoration: underline;
+  }
+
+  .sidenav .prob-data {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+  }
+
+
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #50A0FF;
+  }
+  
+   
+  /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+  .navbar{
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    width: 100%;
+    background-color: #f1f1f1;
+  }
+
+  .sidebar-title{
+      font-size: 22px;
+      text-decoration: underline;
+      color: #818181;
+  }
+
+  .normal-page{
+      padding-top: 70px;
+      text-align: center;
+  }
+
+  .twoplot-container{
+      width: 80%;
+      margin:40px auto;
+      display: block;
+  }
+
+  .paired-chart-container{
+      margin: auto;
+      text-align: center;
+  }

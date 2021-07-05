@@ -1,0 +1,12 @@
+pymongo
+flask
+flask-bootstrap
+flask-nav
+flask-wtf
+wtforms
+pytest
+pandas
+matplotlib
+scikit-learn
+plotly
+flask-session

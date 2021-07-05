@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} Symptoms Select {% endblock %}
+
+{% block content %} 
+<div class="normal-page">
+<h1> Welcome to the Symptom Selector </h1>
+<div class="select-form">
+    <form method="post">
+        <h3> Select Symptoms </h3>
+        <div class="form-field">
+            {% for field in symptoms %}
+                {{ wtf.form_field(form[field]) }}
+            {% endfor %}
+        </div>
+        <h3> Patient Gender </h3>
+        <div class="form-field">
+            {{ wtf.form_field(form.gender) }}
+        </div>
+        <h3> Patient Age </h3>
+        <div class="age-field form-field">
+            {{ wtf.form_field(form.age) }}
+        </div>
+        {{ wtf.form_field(form.bayes) }}
+        {{ wtf.form_field(form.empirical) }}
+    </form>
+</div>
+</div>
+{% endblock %}

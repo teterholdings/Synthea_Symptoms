@@ -1,0 +1,16 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}This is an example page{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
+
+{% block navbar %}
+{{ nav.main_navbar.render() }}
+{% endblock %}
+
+{% block content %}
+  <h1>Hello, Bootstrap</h1>
+{% endblock %}
+

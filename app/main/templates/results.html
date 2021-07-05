@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %} Symtoms Results {% endblock %}
+
+{% block content %} 
+<!-- THIS SIDEBAR LAYOUT DOES NOT LOOK VERY GOOD -->
+<!--<div class="sidenav">
+    <h3 class="sidebar-title"> Selected Symptoms <h3>
+    <div class="side-symptoms">
+        <ul>
+            {% for symptom in symptom_list %}
+            <li><a href="{{ url_for(symptom_link,symptom=symptom) }}"> {{ symptom }} </a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <h3 class="sidebar-title"> Pathologies <h3>
+    <table class="side-table">
+        {% for pathology in prob_table %}
+        <tr>
+            <td>
+                <a href="{{ url_for(pathology_link,pathology=pathology[0]) }}"> {{ pathology[0] }} </a> 
+            </td>
+            <td class="prob-data">{{ "%0.3f" % pathology[1] }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+-->
+<div class="normal-page">
+    <h1 class="results-title"> Results </h1>
+    <h4 class="results-title"> Age: {{ age }} </h4>
+    <h4 class="results-title"> Gender: {{ gender }} </h4>
+    <div class="result-container">
+        <div class="res-chart-container">
+            <div id="results-barplot"></div>
+        </div>
+    </div>
+    <div class="results-table">
+        <h3 class="results-title"> Selected Symptoms </h3>
+        <table class="centered-table">
+            {% for symptom in symptom_list %}
+            <tr>
+                <td>&#8226; <a href="{{ url_for(symptom_link,symptom=symptom) }}"> {{ symptom }} </a></td>
+            {% endfor %}
+            </tr>
+        </table>
+        <h3 class="results-title"> Pathologies </h3>
+        <table class="centered-table">
+            {% for pathology in prob_table %}
+            <tr>
+                <td>
+                    <a href="{{ url_for(pathology_link,pathology=pathology[0]) }}"> {{ pathology[0] }} </a> 
+                </td>
+                <td class="prob-data">{{ "%0.3f" % pathology[1] }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    var graphs = {{ graphJSON | safe }};
+    Plotly.plot('results-barplot',graphs,{})
+</script>
+{% endblock %}

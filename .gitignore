@@ -1,0 +1,14 @@
+env
+data
+synthea-bin
+*__pycache__*
+*pyc
+app/main/SFG.pkl
+flask_session/*
+flask_session
+.vscode
+.vscode/*
+*pkl
+write-up
+
+
