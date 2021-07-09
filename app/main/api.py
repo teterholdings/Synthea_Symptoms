@@ -328,11 +328,15 @@ def get_andsymptoms_objs(
     Returns:
         list of symptoms objects from mongo db
     """
-    query = {"resource.symptoms.text": {
-            "$all": symptom_list
-        }}
+    if len(symptom_list) > 0:
+        query = {"resource.symptoms.text": {
+                "$all": symptom_list
+            }}
+    else:
+        query = {}
     for key,value in kwargs.items():
-        query[f"resource.{key}"] = value
+        if value is not None:
+            query[f"resource.{key}"] = value
     result = db.symptoms.find(
         query
     )
@@ -354,9 +358,13 @@ def get_orsymptoms_objs(
     Returns:
         list of symptoms objects from mongo db
     """
-    query = {"resource.symptoms.text": {
-            "$in": symptom_list
-        }}
+    if len(symptom_list) > 0:
+        query = {"resource.symptoms.text": {
+                "$in": symptom_list
+            }}
+    else:
+        query = {}
+    
     for key,value in kwargs.items():
         query[f"resource.{key}"] = value
     result = db.symptoms.find(

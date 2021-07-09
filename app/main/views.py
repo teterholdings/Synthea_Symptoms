@@ -78,12 +78,23 @@ def bayes_results():
 
     if not session.get("symptoms_list"):
         session['symptoms_list'] = api.get_all_symptoms(db)
+    
+    symptoms_list = session.get("symptoms_list")
 
-    symptoms_list = session.get('symptoms_list')
+    age_raw = request.form.get('age')
+    if (age_raw is None) or (age_raw == ""):
+        session['age'] = None
+        age = None
+    else:
+        age = int(age_raw)
+        session['age'] = age
+
     gender = request.form.get('gender')
-    age = int(request.form.get('age'))
-    session['gender'] = gender
-    session['age'] = age
+    if (gender is None) or (gender == ""):
+        gender = None
+        session['gender'] = None
+    else:
+        session['gender'] = gender
 
     pos_symptoms_list = [
         key for key in list(request.form.keys()) if key \
@@ -91,12 +102,16 @@ def bayes_results():
     ]
     session['pos_symptoms_list'] = pos_symptoms_list
 
-    sfg.set_gender(
-        gender
-    )
-    sfg.set_age(
-        age
-    )
+    if gender is not None:
+        sfg.set_gender(
+            gender
+        )
+    
+    if age is not None:
+        sfg.set_age(
+            age
+        )
+    
     for symptom in pos_symptoms_list:
         sfg.set_symptom(symptom)
     sfg.sum_product()
@@ -113,7 +128,7 @@ def bayes_results():
             columns = ["Pathology","Probability"]
         )
         fig = px.bar(
-            prob_df.iloc[::-1],
+            prob_df.iloc[0:5].iloc[::-1],
             y="Pathology",
             x="Probability",
             orientation = 'h',
@@ -407,23 +422,41 @@ def conditional_pathology(pathology):
 def empirical_results():
     symptoms_list = session.get('symptoms_list')
 
+
+    age_raw = request.form.get('age')
+    if (age_raw is None) or (age_raw == ""):
+        session['age'] = None
+        age = None
+    else:
+        age = int(age_raw)
+        session['age'] = age
+
+    gender = request.form.get('gender')
+    if (gender is None) or (gender == ""):
+        gender = None
+        session['gender'] = None
+    else:
+        session['gender'] = gender
+
     pos_symptoms_list = [
         key for key in list(request.form.keys()) if key \
             in symptoms_list
     ]
-    gender = request.form.get('gender')
-    age = int(request.form.get('age'))
-    session['gender'] = gender
-    session['age'] = age
     session['pos_symptoms_list'] = pos_symptoms_list
 
+    query_filters = {}
+    if age is not None:
+        query_filters['age_begin'] = age
+    
+    if gender is not None:
+        query_filters['gender'] = gender
+    
     with DB.symptoms_db() as db:
         # Change to get_orsymptoms_objs for "OR" symptom query
         symptom_objs = api.get_andsymptoms_objs(
             db,
             pos_symptoms_list,
-            gender=gender,
-            age_begin = age
+            **query_filters
         )
 
     path_counter = Counter([s['resource']['pathology'] for \
@@ -440,7 +473,7 @@ def empirical_results():
             columns = ["Pathology","Probability"]
         )
         fig = px.bar(
-            prob_df.iloc[::-1],
+            prob_df.iloc[0:5].iloc[::-1],
             y="Pathology",
             x="Probability",
             orientation = 'h',

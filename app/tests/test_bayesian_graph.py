@@ -24,6 +24,7 @@ if not os.environ.get('PYTHONPATH'):
 from app.main.bayesian_graph import FactorNode,\
     VariableNode,symptomsFactorGraph
 from app.main import utils
+from app.main.db import symptoms_db
 
 PICKLE_SFG_PATH = os.path.join(
     PROJECT_ROOT,
@@ -116,4 +117,54 @@ def test_sum_product_gender(sfg):
     for n in sfg.Nodes:
         sfg.Nodes[n].compute_marginals()
         print(f"{n}: {sum(sfg.Nodes[n].marginals.values())}")
+    
+
+@pytest.mark.parametrize(
+    ["fixed_value_dict","query_dict"],
+    [
+        ({"Gender":"M"},{"resource.gender":"M"}),
+        (
+            {
+                "Gender":"F",
+                "Age":10,
+                "Cough": True
+            },
+            {
+                "resource.gender":"F",
+                "resource.age_begin":10,
+                "resource.symptoms.text":"Cough"
+            }
+        ),
+        (
+            {
+                "Fever": True,
+                "Fever_severity": 35
+            },
+            {
+                "resource.symptoms":{"$elemMatch":{"text":"Fever","severity":"35"}}
+            }
+        ),
+        (
+            {
+                "Fever_severity": 35
+            },
+            {
+                "resource.symptoms":{"$elemMatch":{"text":"Fever","severity":"35"}}
+            }
+        )
+    ]
+)
+def test_graph_validate(sfg,fixed_value_dict,query_dict):
+    for node,value in fixed_value_dict.items():
+        sfg.Nodes[node].set_value(value)
+    sfg.sum_product()
+    for n in sfg.Nodes:
+        if n not in fixed_value_dict:
+            sfg.Nodes[n].compute_marginals()
+            marginal_sum = sum(sfg.Nodes[n].marginals.values())
+            with symptoms_db() as db:
+                total_count = db.symptoms.count_documents({})
+                count = db.symptoms.count_documents(query_dict)
+            assert abs(marginal_sum - (count/total_count)) < 0.01
+            print(f"{n}: {marginal_sum} == {count}/{total_count}")
     
