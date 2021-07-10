@@ -2,6 +2,18 @@
 
 This is the code repository for Team TeMa's proposed research area using Bayesian methods to investigate symptoms and underlying causes based on Synthea-generated data.
 
+## Abstract.
+
+Diagnosing an ailment is essentially a Bayesian problem; a doctor only knows what she can observe and must use this information to infer the patient's condition.  In this effort, we provide a prototype implementation that uses Synthea-generated synthetic electronic health records (EHRs) to study the complicated relationships between sets of symptoms and the likelihoods of possible underlying causes.  The goal of this work is to determine the most likely patient pathologies based on a given set of observed symptoms and patient demographics. We apply two distinct methods aimed at achieving this goal.  Our first method relies on a strictly empirical analysis of synthetic EHRs to obtain posterior pathology probabilities.  Our second approach uses the synthetic EHRs to populate probability distribution functions in a graph-based machine learning model.  We give a qualitative and quantitative comparison of these two methods.  Finally, we show how we validated these models, demonstrate how they can be used as a mechanism for validating the outputs of Synthea, and suggest promising research applications of the methods we have proposed.
+
+More detail about the analysis methods employed can be found in the project report at `/write-up/submission.pdf` in this repository.
+
+## What this code does.
+
+The code in this repository uses Synthea to generate synthetic health records and symptoms data, ingests that data into a Mongo database backend, and hosts a browser-based (python flask) application that enables a user to select a set of symptoms, a patient age, patient gender, and the desired analysis method (empirical or Bayesian network; for details see the project report at `/write-up/submission.pdf`).  The application executes the selected method to find the most likely pathologies and associated posterior probabilities.  Selected symptoms and resulting pathologies can be analyzed in more detail by following subsequent links.  In each case, the application carries out all of the analyses using the selected method.  When multiple symptoms are selected, the app conducts the analysis assuming all symptoms are simultaneously present and result from the same underlying cause.  As a result, many combinations of symptoms return no results because they are unlikely to occur together due to a single pathology.
+
+The Bayesian network analysis take about 1-3 minutes, which is considerably longer than the empirical analysis because of the computational resources required to build the factor graph and propagate the sum-product algorithm to all nodes.  
+
 
 ## Prerequisites.
 
@@ -9,12 +21,27 @@ This is the code repository for Team TeMa's proposed research area using Bayesia
 1. Python 3 and python virtual env
 1. Java (requirement to generate Synthea records)
 
+## Quick Start
+
+This documentation assumes a unix-like shell, e.g., `bash`.  The shell script provided, `do_everything.sh`, sets up the environment, downloads needed libraries and software (including Synthea), generates synthetic health records, and runs the flask application.  These steps are provided with additional context in the following section.  Note: the script `do_everything.sh` automates the execution of **all** of the steps listed in the next section. 
+
+To automate the whole process and get the application running, execute the following.
+
+```bash
+git clone https://github.com/teterholdings/Synthea_Symptoms
+cd Synthea_Symptoms
+source do_everything.sh 500 # Generate 500 records
+```
+
+This process could take several hours, as the processes of generating the records and populating the Mongo database take some time.  If it executes successfully, it will start a flask application. Browse to [http://localhost:5000](http://localhost:5000).
+
 
 ## Steps to deploy minimal development application
 
-The steps below assume a unix-like shell, e.g., `bash`
+This section provides additional explanation for each of the steps in `do_everything.sh`.
 
 ### Set environment variables
+
 ```bash
 PROJECT_ROOT=$(pwd)
 export PROJECT_ROOT
@@ -121,9 +148,18 @@ flask run
 
 ### Open the application in a browser
 
-Browse to (http://localhost:5000)[http://localhost:5000].
+Browse to [http://localhost:5000](http://localhost:5000).
 
+## Tests
 
+The `/app` directory contains the flask application.  The `/app/main` folder contains the python code that accesses the data from the Mongo database, executes the analytical processes, and hosts the outputs as views.  
+
+The `app/tests` folder contains tests and supporting files to ensure the data apis and analysis scripts function properly.  These tests also play a role in model validation, as described in the report (`write-up/submission.pdf`).  To execute these tests, ensure the python virtual environment is properly set-up and activated, and run the following shell commands.
+
+```bash
+cd app/tests
+pytest
+```
 
 
 
