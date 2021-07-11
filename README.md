@@ -6,13 +6,15 @@ This is the code repository for Team TeMa's proposed research area using Bayesia
 
 Diagnosing an ailment is essentially a Bayesian problem; a doctor only knows what she can observe and must use this information to infer the patient's condition.  In this effort, we provide a prototype implementation that uses Synthea-generated synthetic electronic health records (EHRs) to study the complicated relationships between sets of symptoms and the likelihoods of possible underlying causes.  The goal of this work is to determine the most likely patient pathologies based on a given set of observed symptoms and patient demographics. We apply two distinct methods aimed at achieving this goal.  Our first method relies on a strictly empirical analysis of synthetic EHRs to obtain posterior pathology probabilities.  Our second approach uses the synthetic EHRs to populate probability distribution functions in a graph-based machine learning model.  We give a qualitative and quantitative comparison of these two methods.  Finally, we show how we validated these models, demonstrate how they can be used as a mechanism for validating the outputs of Synthea, and suggest promising research applications of the methods we have proposed.
 
-More detail about the analysis methods employed can be found in the project report at `/write-up/submission.pdf` in this repository.
+More detail about the analysis methods employed can be found in the project report at `/write-up/submission.pdf` in this repository.  Also see our demonstration on YouTube!
 
 ## What this code does.
 
 The code in this repository uses Synthea to generate synthetic health records and symptoms data, ingests that data into a Mongo database backend, and hosts a browser-based (python flask) application that enables a user to select a set of symptoms, a patient age, patient gender, and the desired analysis method (empirical or Bayesian network; for details see the project report at `/write-up/submission.pdf`).  The application executes the selected method to find the most likely pathologies and associated posterior probabilities.  Selected symptoms and resulting pathologies can be analyzed in more detail by following subsequent links.  In each case, the application carries out all of the analyses using the selected method.  When multiple symptoms are selected, the app conducts the analysis assuming all symptoms are simultaneously present and result from the same underlying cause.  As a result, many combinations of symptoms return no results because they are unlikely to occur together due to a single pathology.
 
 The Bayesian network analysis take about 1-3 minutes, which is considerably longer than the empirical analysis because of the computational resources required to build the factor graph and propagate the sum-product algorithm to all nodes.  
+
+Note: this minimal application is intended only as a prototype to run in a local environment and demonstrate method functionality and utility.  It has not been sufficiently developed and debugged to be deployed in a production environment.
 
 
 ## Prerequisites.
