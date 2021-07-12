@@ -1,6 +1,6 @@
 # Symptoms research
 
-This is the code repository for Team TeMa's proposed research area using Bayesian methods to investigate symptoms and underlying causes based on Synthea-generated data.
+This is the code repository for Team TeMa's prototype research to employ Bayesian methods to investigate symptoms and underlying causes based on Synthea-generated data.
 
 ## Abstract.
 

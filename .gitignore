@@ -9,5 +9,5 @@ flask_session
 .vscode
 .vscode/*
 *pkl
-
+*.DS_Store
 
