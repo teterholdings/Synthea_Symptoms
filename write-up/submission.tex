@@ -26,7 +26,7 @@
 \newcommand{\organization}{TeMa}
 \newcommand{\solutiontitle}{Empirical Inference of Underlying Condition Probabilities Using Synthea-Generated Synthetic Health Data}
 \newcommand{\challengecategory}{II (Novel Uses of Synthea Generated Synthetic Data)}
-\newcommand{\ABSTRACT}{Diagnosing an ailment is essentially a Bayesian problem; a doctor only knows what she can observe and must use this information to infer the patient's condition.  In this effort, we provide a prototype implementation that uses Synthea-generated synthetic electronic health records (EHRs) to study the complicated relationships between sets of symptoms and the likelihoods of possible underlying causes.  The goal of this work is to determine the most likely patient pathologies based on a given set of observed symptoms and patient demographics. We apply two distinct methods aimed at achieving this goal.  Our first method relies on a strictly empirical analysis of synthetic EHRs to obtain posterior pathology probabilities.  Our second approach uses the synthetic EHRs to populate probability distribution functions in a graph-based machine learning model.  We give a qualitative and quantitative comparison of these two methods.  Finally, we show how we validated these models, demonstrate how they can be used as a mechanism for validating the outputs of Synthea, and suggest promising research applications of the methods we have proposed.
+\newcommand{\ABSTRACT}{Diagnosing an ailment is essentially a Bayesian problem; a doctor only knows what she can observe and must use this information to infer the patient's condition.  We provide a prototype implementation that uses Synthea-generated synthetic electronic health records (EHRs) to study the complicated relationships between sets of symptoms and the likelihoods of possible underlying causes.  Our goal is to determine the most likely patient pathologies based on a given set of observed symptoms and patient demographics. We apply two distinct methods aimed at achieving this goal.  Our first method relies on a strictly empirical analysis of synthetic EHRs to obtain posterior pathology probabilities.  Our second approach uses the synthetic EHRs to populate probability distribution functions in a graph-based machine learning model.  We give a qualitative and quantitative comparison of these two methods.  Finally, we show how we validated these models, demonstrate how they can be used as a mechanism for validating the outputs of Synthea, and suggest promising research applications of the methods we have proposed.
 }
 
 
@@ -81,7 +81,10 @@
     \ABSTRACT
   \end{minipage}
 \end{center}
+\vspace{11pt}
 
+\noindent \textbf{Github}: \url{https://github.com/teterholdings/Synthea_Symptoms}\\
+\noindent \textbf{YouTube}: \url{https://youtu.be/l7_jHRNEuhk}
 
 \section{Overview} \label{sec: overview}
 
@@ -124,9 +127,11 @@ Patient diagnosis is fundamental to good health care.  In this research effort, 
   %%%%%%%%% END FIGURE %%%%%%%%
 
 
-Simulations such as Synthea can be used to investigate the complicated probabilistic relationships for which exact analytic derivations are intractable.  Synthea \citep{walonoski2018synthea} consists of a configurable set of modules, each of which stochastically generates medical conditions and associated symptoms. For example, a patient under 18 years old has a 0.5\% chance of developing bronchitis each month, and \emph{given the patient has developed bronchitis}, the conditional probability the patient develops a fever is 1 \citep{bronchitisModule}.  The probabilities encoded in Synthea's modules are based on known characteristics and incidence rates of various pathologies and conditions.
+Simulations like Synthea can be used to investigate the probabilistic relationships for which exact analytic derivations are intractable.  Synthea \citep{walonoski2018synthea} consists of a configurable set of modules, each of which stochastically generates medical conditions and associated symptoms. For example, a patient under 18 years old has a 0.5\% chance of developing bronchitis each month, and \emph{given the patient has developed bronchitis}, the conditional probability the patient develops a fever is 1 \citep{bronchitisModule}.  The probabilities encoded in Synthea's modules are based on known characteristics and incidence rates of various pathologies and conditions.
 
-It somewhat difficult, however, to analytically determine the combined probability that a patient develops a fever for any reason.  It requires even more work to determine the conditional (posterior) probability, \emph{given the patient has a fever}, that the underlying cause is bronchitis.  The analysis gets even more complicated if we also account for symptom severity, patient demographics, or other factors.  Figure \ref{fig: condprob} depicts a simple conditional probability diagram for the ``Fever'' and "Body aches" symptoms associated with just two of the Synthea modules.  The figure includes the severity distributions for the depicted symptoms, where $U$ denotes the uniform distribution.  Synthea's workflows essentially move from left to right in Figure \ref{fig: condprob} to generate pathologies and then symptoms.  Our task (and the task of doctors diagnosing patients) is to infer the pathology from the symptoms and severities, working instead from the right side of Figure \ref{fig: condprob} to the left.
+It somewhat difficult, however, to analytically determine the combined probability that a patient develops a fever for any reason.  It requires even more work to determine the conditional (posterior) probability, \emph{given the patient has a fever}, that the underlying cause is bronchitis.  
+The analysis gets even more complicated if we also account for symptom severity, patient demographics, or other factors.  
+Figure \ref{fig: condprob} depicts a simple conditional probability diagram for the ``Fever'' and "Body aches" symptoms associated with just two of the Synthea modules.  The figure includes the severity distributions for the depicted symptoms, where $U$ denotes the uniform distribution.  Synthea's workflows essentially move from left to right in Figure \ref{fig: condprob} to generate pathologies and then symptoms.  Our task (and the task of doctors diagnosing patients) is to infer the pathology from the symptoms and severities, working instead from the right side of Figure \ref{fig: condprob} to the left.
 
 
 \section{Methods}
@@ -161,7 +166,7 @@ For example, we assume that pathology probabilities depend on a patient's age an
 
 \begin{figure}[!htb]\centering
   \begin{tabular}{c@{\hspace{3em}}c} 
-\begin{tikzpicture}[scale=0.6]
+\begin{tikzpicture}[scale=0.5]
 \node(gender)[circle,draw] at (0,2){\scriptsize Gender};
 \node(age)[circle,draw] at (0,-2){\scriptsize Age};
 \node(pathology)[circle,draw] at (3,0){\scriptsize Pathology};
@@ -276,11 +281,11 @@ Investigating the Synthea output for the top WebMD results, pneumonia and middle
 
 \section{Utility \& Recommendations}
 
-A primary near-term use for the methods we present is to validate Synthea's performance against authoritative sources (e.g., WebMD, but there are many others).  From our analyses we have found a lack of consistency in the way Synthea modules have been written and implemented.  These inconsistencies cascade into inconsistent outputs that degrade the value of the synthetic data.  Synthea modules would benefit from a major refactoring and deliberate standardization going forward, using the methods in this paper as verification that the symptoms outputs conform with known diagnosis workflows.
+A primary near-term use for the methods we present is to validate Synthea's performance against authoritative sources (e.g., WebMD).  From our analyses we have found some inconsistency in the way Synthea modules have been written and implemented.  These inconsistencies cascade into inconsistent outputs that degrade the value of the synthetic data.  Synthea modules would benefit from a major refactoring and deliberate standardization going forward, using the methods in this paper as verification that the symptoms outputs conform with known diagnosis workflows.
 
-Initializing Bayesian machine learning models with empirical distributions from synthetic health records is a novel use of Synthea data that could provide insights in a variety of applications.  The Bayesian network model we have presented can be extended beyond the variables and demographics that we included.  It could be used to analyze more detailed patient demographics, labs and results, medications, pre-existing conditions, and insurance information, all of which are already included in Synthea outputs.  In our current implementation, a researcher could use the model to look at likely causes for complex sets of symptoms, obtaining insights into multiple diagnosis trajectories in the face of uncertainty.  Exploration of this nature could account for various patient preferences, contributing to patient-centered outcomes research.  
+Initializing Bayesian machine learning models with empirical distributions from synthetic health records is a novel use of Synthea data that could provide insights in many applications.  The Bayesian network model we presented can extend beyond the variables and demographics that we included.  It could be used to analyze more detailed patient demographics, labs and results, medications, pre-existing conditions, and insurance information, all of which are already included in Synthea outputs.  In our current implementation, a researcher could use the model to look at likely causes for complex sets of symptoms, obtaining insights into multiple diagnosis trajectories in the face of uncertainty.  Exploration of this nature could account for various patient preferences, contributing to patient-centered outcomes research.  
 
-This research could also provide valuable insights into the relative benefits of different inquiry paths.  Determining the actual value of any variable in the Bayesian network takes some amount of effort or resources.  Age and gender are easy to determine.  Determining symptoms and severities could require tools, time, facilities, or specialists.  The Bayesian models we present could be used to quantify the expected reduction in uncertainty that would come from conducting a certain inquiry to determine the value of a variable in the network, providing a measure of ``return on investment'' for a given test.  These methods can make use of the standard ``perfect" care trajectories written into the Synthea module to investigate complex care situations where perfect information isn't available.  
+This research could also give valuable insights into the relative benefits of different inquiry paths.  Determining the actual value of any variable in the Bayesian network takes some amount of effort or resources.  Age and gender are easy to determine.  Determining symptoms and severities could require tools, time, facilities, or specialists.  The Bayesian models we prototype could quantify the expected reduction in uncertainty that would come from conducting a certain inquiry to determine the value of a variable in the network, providing a measure of ``return on investment'' for a given test.  These methods can make use of the standard ``perfect" care trajectories written into the Synthea module to investigate complex care situations where perfect information isn't available.  
 
 \clearpage
 
