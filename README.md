@@ -1,12 +1,12 @@
 # Symptoms research
 
-This is the code repository for Team TeMa's prototype research to employ Bayesian methods to investigate symptoms and underlying causes based on Synthea-generated data.
+This is the code repository for Team TeMa's prototype research to employ Bayesian methods to investigate symptoms and underlying causes based on Synthea-generated data.  This code constitutes part of team TeMa's submission to the [Synthetic Health Data Challenge](https://www.challenge.gov/challenge/synthetic-health-data-challenge/).
 
 ## Abstract.
 
 Diagnosing an ailment is essentially a Bayesian problem; a doctor only knows what she can observe and must use this information to infer the patient's condition.  In this effort, we provide a prototype implementation that uses Synthea-generated synthetic electronic health records (EHRs) to study the complicated relationships between sets of symptoms and the likelihoods of possible underlying causes.  The goal of this work is to determine the most likely patient pathologies based on a given set of observed symptoms and patient demographics. We apply two distinct methods aimed at achieving this goal.  Our first method relies on a strictly empirical analysis of synthetic EHRs to obtain posterior pathology probabilities.  Our second approach uses the synthetic EHRs to populate probability distribution functions in a graph-based machine learning model.  We give a qualitative and quantitative comparison of these two methods.  Finally, we show how we validated these models, demonstrate how they can be used as a mechanism for validating the outputs of Synthea, and suggest promising research applications of the methods we have proposed.
 
-More detail about the analysis methods employed can be found in the project report at `/write-up/submission.pdf` in this repository.  Also see our demonstration on YouTube!
+More detail about the analysis methods employed can be found in the project report at `/write-up/submission.pdf` in this repository.  Also see our demonstration on [YouTube](https://youtu.be/l7_jHRNEuhk)
 
 ## What this code does.
 
